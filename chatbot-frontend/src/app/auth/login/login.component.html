@@ -1,0 +1,68 @@
+<div class="p-4 w-100 h-100 d-flex justify-content-center" style="background-color: black;">
+    <div class="w-100 h-100 d-flex align-items-center flex-row">
+      <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+        <div class="w-100 h-100 right-section-wrapper">
+          <div class="container w-100 h-100 d-flex align-items-center">
+            <div class="text">Bienvenue sur TT Chatbot!</div>
+          </div>
+          <div>
+             <div class="wave"></div>
+             <div class="wave"></div>
+             <div class="wave"></div>
+          </div>
+        </div>
+      </div>
+      <span class="p-3">
+        <img width="60px" height="60px" src="assets/ttgpt-log.png" style="border-radius: 50%;">
+      </span>
+      <div class="w-100 h-100 d-flex align-items-center flex-column">
+        <div class=" w-100 h-100">
+          <div class="p-4 w-100 h-75 d-flex align-items-center justify-content-center flex-column"style="color:white;font-family: monospace;">
+			<div class="header m-1 mb-5 w-100 d-flex align-items-center flex-column">
+				<div class="p-3" style="color:#639bd7f0; font-size: 1.4rem; cursor: pointer;font-family: monospace;">Connexion</div>
+			</div>
+			<div class="w-100">
+				<form class="w-100" [formGroup]="form" (ngSubmit)="submit()">
+					<div class="w-100 mb-3">
+						<label class="form-label d-flex justify-content-start" for="email" >Email</label>
+						<input class="form-control" type="email" formControlName="email" id="email" name="email" placeholder="Entrez votre adresse e-mail">
+						<div class="d-flex justify-content-start" style="color: red;"  *ngIf="email.errors && (email.dirty || email.touched)">Entrez votre adresse e-mail</div>
+					</div>
+					<div class="w-100 mb-4" >
+						<label class="form-label d-flex justify-content-start" for="password">Mot de passe</label>
+						<div class="input-group">
+							<input class="form-control" [type]="isShowPassword ? 'text' : 'password'" formControlName="password" id="password" name="password"placeholder="Entrez votre mot de passe">
+							<span
+							class="input-group-text" style="cursor:pointer;"
+							(click)="toggleFieldTextTypePassword()"
+						  >
+							<img
+							  *ngIf="!isShowPassword"
+							  class="icon_eye"
+							  src="assets/icon_eye.svg"
+							  alt="icon_eye"
+							/>
+							<img
+							  *ngIf="isShowPassword"
+							  src="assets/icon_eye_slash.svg"
+							  alt="icon_eye_slash"
+							/>
+						  </span>
+						</div>
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="password.errors && (password.dirty || password.touched)">Entrez votre mot de passe</div>
+					</div>
+					<div class="w-100 mb-3">
+						<button [disabled]="form.invalid"class="btn-submit w-100 pe-3 ps-3 p-2">Se connecter</button>
+					</div>
+				</form>
+			</div>
+          </div>
+          <div class="w-100 h-25 d-flex align-items-center justify-content-center flex-column">
+			<span  style="color:#639bd7f0; font-size: medium; font-weight: 400; cursor: pointer;" routerLink="/register" >Vous n'avez pas de compte ? S'inscrire</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

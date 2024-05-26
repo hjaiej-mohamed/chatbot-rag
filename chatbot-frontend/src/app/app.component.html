@@ -1,0 +1,42 @@
+  <ng-container  *ngIf="isClientLoggedIn && !isPageLogin()">
+    <nz-header class="w-100 d-flex justify-content-between align-items-center p-2" style="z-index: 1;position:fixed;top: 0;">
+      <div class="pt-2 ps-2">
+        <H6 style="color:white">
+          <!-- <img width="50px" height="50px" style="border-radius: 45%;" src="assets/ttgpt-log.png" class="me-3"> -->
+          <span >TT-GPT</span> </H6>
+      </div>
+      <div class="d-flex align-items-center">
+      <a style="color:white" nz-button nzType="link" routerLink="/chat" routerLinkActive="active">Chatbot</a>
+      <div  class="p-2 me-4 ms-4">
+        <span style="color:white;font-weight: 800;">{{username}}</span>
+        <span>          
+        <img height="28px" height="28px" src="assets\profile.png">
+        </span>
+      </div>
+      <a style="color:white" nz-button nzType="link" (click)="logout()" routerLinkActive="active">Déconexion</a>
+      
+    </div>
+      </nz-header>
+  </ng-container >
+  <ng-container *ngIf="isAdminLoggedIn && !isPageLogin()">
+    <nz-header class="w-100 d-flex justify-content-between align-items-center p-2" style="z-index: 1;position:fixed;top: 0;">
+      <div class="pt-2 ps-2">
+        <H6 style="color:white">
+          <!-- <img width="50px" height="50px" style="border-radius: 45%;" src="assets/ttgpt-log.png" class="me-3"> -->
+          <span >TT-GPT</span> </H6>
+      </div>
+      <div class="d-flex align-items-center">
+        <a style="color:white"nz-button nzType="link" routerLink="/admin" routerLinkActive="active">Administration</a>
+        <a style="color:white" nz-button nzType="link" routerLink="/chat" routerLinkActive="active">Chatbot</a>
+        <div  class="p-2 me-3 ms-3">
+          <span style="color:white;font-weight: 800;">{{username}}</span>
+          <span>          
+          <img height="28px" height="28px" src="assets\profile.png">
+          </span>
+        </div>
+        <a style="color:white" nz-button nzType="link" (click)="logout()" routerLinkActive="active">Déconexion</a>
+        
+      </div>
+    </nz-header>
+  </ng-container >
+  <router-outlet></router-outlet>

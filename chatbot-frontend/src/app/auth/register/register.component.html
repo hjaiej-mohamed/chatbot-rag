@@ -1,0 +1,76 @@
+<div class="p-4 w-100 h-100 d-flex justify-content-center" style="background-color: black;">
+    <div class="w-100 h-100 d-flex align-items-center flex-row">
+      <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+        <div class="w-100 h-100 right-section-wrapper">
+          <div class="container w-100 h-100 d-flex align-items-center">
+            <div class="text">Bienvenue sur TT Chatbot!</div>
+          </div>
+          <div>
+             <div class="wave"></div>
+             <div class="wave"></div>
+             <div class="wave"></div>
+          </div>
+        </div>
+      </div>
+      <span class="p-3">
+        <img width="60px" height="60px" src="assets/ttgpt-log.png" style="border-radius: 50%;">
+      </span>
+      <div class="w-100 h-100 d-flex align-items-center flex-column">
+        <div class=" w-100 h-100">
+          <div class="p-4 w-100 h-75 d-flex align-items-center justify-content-center flex-column"style="color:white;font-family: monospace;">
+			<div class="header m-1 mb-5 w-100 d-flex align-items-center flex-column">
+				<div class="p-3" style="color:#639bd7f0; font-size: 1.4rem; cursor: pointer;font-family: monospace;">S'inscrire</div>
+			</div>
+			<div class="w-100">
+				<form class="w-100" [formGroup]="form" (ngSubmit)="submit()">
+                    <div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="firstname" >Prénom</label>
+						<input class="form-control" type="text" formControlName="firstname" id="firstname" name="firstname" placeholder="Entrez votre nom">
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="firstname.errors && (firstname.dirty || firstname.touched)">Le prénom est requis.</div>
+					</div>
+                    <div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="lastname" >Nom</label>
+						<input class="form-control" type="text" formControlName="lastname" id="lastname" name="lastname" placeholder="Entrez votre prénom">
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="lastname.errors && (lastname.dirty || lastname.touched)">Le nom de famille est requis.</div>
+					</div>
+                    <div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="address" >Adresse</label>
+						<input class="form-control" type="text" formControlName="address" id="address" name="address"placeholder="Entrez votre adresse">
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="address.errors && (address.dirty || address.touched)">Une adresse est requise.</div>
+					</div>
+					<div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="email" >Email</label>
+						<input class="form-control" type="email" formControlName="email" id="email" name="email" placeholder="Entrez votre email">
+						<div class="d-flex justify-content-start" style="color: red;"  *ngIf="email.errors && (email.dirty || email.touched)">Veuillez saisir une adresse e-mail valide.</div>
+					</div>
+					<div  class="w-100 mb-1">
+                        <label for="password" class="form-label d-flex justify-content-start">Password</label>
+                        <div class="input-group">
+                            <input class="form-control" [type]="showPassword ? 'text':'password'" formControlName="password" id="password" name="password"  placeholder="Entrez votre mot de passe ">
+                            <span class="input-group-text">
+                                <img *ngIf="!showPassword" src="assets/icon_eye.svg" (click)="toggleShowPassword()">
+                                <img *ngIf="showPassword" src="assets/icon_eye_slash.svg" (click)="toggleShowPassword()">
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-start" style="color:red" *ngIf="password.errors && (password.dirty || password.touched)">Le mot de passe doit contenir au moins 8 caractères.</div>
+                    </div>
+                    <div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="cin">CIN</label>
+						<input class="form-control" type="text" formControlName="cin" id="cin" name="cin"placeholder="Entrez votre numéro de CIN">
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="cin.errors && (cin.dirty || cin.touched)">Le numéro de CIN est requis.</div>
+					</div>
+					<div class="w-100 mb-3 mt-5">
+						<button [disabled]="form.invalid"class="btn-submit w-100 pe-3 ps-3 p-2">S'inscrire</button>
+					</div>
+				</form>
+			</div>
+          </div>
+          <div class="w-100 h-25 d-flex align-items-center justify-content-center flex-column">
+			<span  style="color:#639bd7f0; font-size: medium; font-weight: 400; cursor: pointer;" routerLink="/login" >Vous avez déjà un compte ? Se connecter</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

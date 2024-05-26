@@ -1,0 +1,258 @@
+<main class="container-fluid w-100 h-100 p-5 pb-0">
+    
+    <div class="p-3 pt-5" >
+        <H3>Administration</H3>
+    </div>
+    <div class="container-fluid row d-flex p-3 w-100 h-75" style="box-sizing:content-box;">
+        <section class="col card h-100 p-2 me-5">
+            <div class="w-100 p-1 d-flex justify-content-between">
+                <span><H6><img class="pe-2" src="assets/config.svg"><span style="color:var(--info)">Gérer chatbot</span></H6></span>
+                <span  type="button" data-bs-toggle="modal" data-bs-target="#ajoutContext" class="p-2" style="border:none; border-radius: 5px;background-color:#9b4dca ;color: white;">
+                    Ajouter PDF <img class="ms-3 pb-1" src="assets/add-file.svg">
+                </span>
+            </div>
+            <div class="w-100 p-2 h-100 mt-5" style="overflow: auto;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom du pdf</th>
+                            <th>Date d'ajout</th>
+                            <th>Dernière modification</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let context of contexts;index as i">
+                            <tr>
+                                <td>{{i}}</td>
+                                <td>{{context.pdfName}}</td>
+                                <td>{{context.creationDate |date}}</td>
+                                <td>{{context.updateDate |date}}</td>
+                                <td>{{context.description}}</td>
+                                <td>
+                                    <span  style="cursor: pointer;"><img class="me-2" src="assets/view.svg"></span>
+                                    <span  (click)="delete(context.id)" ><img id="btn-delete" src="assets/trush.svg"></span>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="col card h-100 p-2" style="box-sizing: border-box;">
+            <div class="w-100 p-1 d-flex justify-content-between">
+                <H6><img class="pe-2" src="assets/config.svg"> <span style="color:var(--info)">Gérer utilisateurs</span></H6>
+                <span  type="button" data-bs-toggle="modal" data-bs-target="#ajoutUtilisateur" class="p-2" style="border:none;border-radius: 5px ;background-color:#9b4dca ;color: white;">
+                    Ajouter utilisateurs<img  class="ms-3 pb-1" src="assets/add-user.svg">
+                </span>
+            </div>
+            <div class="w-100 p-2 h-100 mt-5" style="overflow: auto;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom Prenom</th>
+                            <th>Email</th>
+                            <th>Tel</th>
+                            <th>Adresse</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let adminUser of adminUsers;index as i">
+                            <tr>
+                                <td>{{i}}</td>
+                                <td>{{adminUser.firstname}} {{adminUser.lastname}}</td>
+                                <td>{{adminUser.email}}</td>
+                                <td>{{adminUser.cin}}</td>
+                                <td>{{adminUser.address}}</td>
+                                <td>
+                                    <span (click)="initAdminForUpdate(adminUser)" type="button" data-bs-toggle="modal" data-bs-target="#editUtilisateur" style="cursor: pointer;"><img class="me-2" src="assets/edit.svg"></span>
+                                    <span  (click)="deleteAdmin(adminUser.id)" ><img id="btn-delete" src="assets/trush.svg"></span>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</main>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="ajoutContext" tabindex="-1" aria-labelledby="#ajoutContext" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body p-2 d-flex flex-column justify-content-between align-items-center" style="height: 400px;">
+            <div class="d-flex flex-column align-items-center">
+                <div class="pb-3"><h4 class="modal-title" id="exampleModalLabel">Importez un nouveau PDF</h4></div>
+                <div class="text-muted w-75 text-center"><span>Ajouter des nouvelles informations pour enrichir votre chatbot</span></div>
+            </div>
+            <div class="w-75 mb-3">
+                <input #fpsFileUploader (change)="onChange($event)" accept=".pdf" class="form-control"
+                type="file" id="fpsFileUploader">           
+                <label for="PDFDescription" class="mt-2">Description</label> 
+                <textarea class="form-control" rows="3" [(ngModel)]="PDFDescription" name="PDFDescription"></textarea>
+            </div>
+            <div class="d-flex w-50 justify-content-center mb-3" >
+                <button class="p-2 me-3"  type="button"  style="background-color:rgb(237, 237, 237);border:none;border-radius: 5px;" id="closeModal" data-bs-dismiss="modal">Annuler</button>
+                <button class="p-2" [disabled]="isSendingFile" type="button" (click)="addContext()" style="background-color: var(--info);border:none;border-radius: 5px; color: white;">Confirmer</button>
+            </div>
+            <div *ngIf="isSendingFile" class="loader-wrap text-center">
+                <span class="loader"></span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="ajoutUtilisateur" tabindex="-1" aria-labelledby="#ajoutUtilisateur" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body p-2 d-flex flex-column justify-content-between align-items-center" >
+            <div class="d-flex flex-column align-items-center">
+                <div class="pb-3"><h4 class="modal-title" id="exampleModalLabel">Ajouter un nouveau utilisateur</h4></div>
+                <div class="text-muted w-75 text-center"><span>Saisir les informations du nouveau utilisateurs</span></div>
+            </div>
+            <div class="w-75 mb-3">
+				<form class="w-100 " [formGroup]="form">
+                    <div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="firstname" >Prénom</label>
+						<input class="form-control" type="text" formControlName="firstname" id="firstname" name="firstname" placeholder="Entrez votre nom">
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="firstname.errors && (firstname.dirty || firstname.touched)">Le prénom est requis.</div>
+					</div>
+                    <div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="lastname" >Nom</label>
+						<input class="form-control" type="text" formControlName="lastname" id="lastname" name="lastname" placeholder="Entrez votre prénom">
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="lastname.errors && (lastname.dirty || lastname.touched)">Le nom de famille est requis.</div>
+					</div>
+                    <div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="address" >Adresse</label>
+						<input class="form-control" type="text" formControlName="address" id="address" name="address"placeholder="Entrez votre adresse">
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="address.errors && (address.dirty || address.touched)">Une adresse est requise.</div>
+					</div>
+					<div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="email" >Email</label>
+						<input class="form-control" type="email" formControlName="email" id="email" name="email" placeholder="Entrez votre email">
+						<div class="d-flex justify-content-start" style="color: red;"  *ngIf="email.errors && (email.dirty || email.touched)">Veuillez saisir une adresse e-mail valide.</div>
+					</div>
+                    <div  class="w-100 mb-1">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-group">
+                            <input class="form-control" [type]="showPassword ? 'text':'password'" formControlName="password" id="password" name="password"  placeholder="Entrez votre mot de passe ">
+                            <span class="input-group-text">
+                                <img *ngIf="!showPassword" src="assets/icon_eye.svg" (click)="toggleShowPassword()">
+                                <img *ngIf="showPassword" src="assets/icon_eye_slash.svg" (click)="toggleShowPassword()">
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-start" style="color:red" *ngIf="password.errors && (password.dirty || password.touched)">Le mot de passe doit contenir au moins 8 caractères.</div>
+                    </div>
+                    <div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="cin">CIN</label>
+						<input class="form-control" type="text" formControlName="cin" id="cin" name="cin"placeholder="Entrez votre numéro de CIN">
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="cin.errors && (cin.dirty || cin.touched)">Le numéro de CIN est requis.</div>
+					</div>
+				</form>
+			</div>
+
+            <div class="d-flex w-50 justify-content-center mb-3" >
+                <button class="p-2 me-3" type="button"  style="background-color:rgb(237, 237, 237);border:none;border-radius: 5px;" id="closeAddUserModal" data-bs-dismiss="modal" (click)="resetForm()">Annuler</button>
+                <button class="p-2" type="button" (click)="submit()" [disabled]="isSendingUserInfo" style="background-color: var(--info);border:none;border-radius: 5px; color: white;">Confirmer</button>
+            </div>
+            <div *ngIf="!isSendingUserInfo" class="loader-wrap text-center">
+                <span *ngIf="isSendingUserInfo" class="loader"></span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- Modal -->
+  <div class="modal fade" id="editUtilisateur" tabindex="-1" aria-labelledby="#editUtilisateur" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body p-2 d-flex flex-column justify-content-between align-items-center" >
+            <div class="d-flex flex-column align-items-center">
+                <div class="pb-3"><h4 class="modal-title" id="exampleModalLabel">Modifier utilisateur</h4></div>
+                <div class="text-muted w-75 text-center"><span>Modifier les informations du utilisateur</span></div>
+            </div>
+            <div class="w-75 mb-3">
+				<form class="w-100 " [formGroup]="form">
+                    <div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="firstname" >Prénom</label>
+						<input class="form-control" type="text" formControlName="firstname" id="firstname" name="firstname" placeholder="Entrez votre nom">
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="firstname.errors && (firstname.dirty || firstname.touched)">Le prénom est requis.</div>
+					</div>
+                    <div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="lastname" >Nom</label>
+						<input class="form-control" type="text" formControlName="lastname" id="lastname" name="lastname" placeholder="Entrez votre prénom">
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="lastname.errors && (lastname.dirty || lastname.touched)">Le nom de famille est requis.</div>
+					</div>
+                    <div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="address" >Adresse</label>
+						<input class="form-control" type="text" formControlName="address" id="address" name="address"placeholder="Entrez votre adresse">
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="address.errors && (address.dirty || address.touched)">Une adresse est requise.</div>
+					</div>
+					<div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="email" >Email</label>
+						<input class="form-control" type="email" formControlName="email" id="email" name="email" placeholder="Entrez votre email">
+						<div class="d-flex justify-content-start" style="color: red;"  *ngIf="email.errors && (email.dirty || email.touched)">Veuillez saisir une adresse e-mail valide.</div>
+					</div>
+                    <div class="w-100 mb-1">
+						<label class="form-label d-flex justify-content-start" for="cin">CIN</label>
+						<input class="form-control" type="text" formControlName="cin" id="cin" name="cin"placeholder="Entrez votre numéro de CIN">
+						<div class="d-flex justify-content-start" style="color:red" *ngIf="cin.errors && (cin.dirty || cin.touched)">Le numéro de CIN est requis.</div>
+					</div>
+				</form>
+			</div>
+
+            <div class="d-flex w-50 justify-content-center mb-3">
+                <button  class="p-2 me-3" type="button"  style="background-color:rgb(237, 237, 237);border:none;border-radius: 5px;" id="closeEditUserModal" data-bs-dismiss="modal" (click)="resetForm()">Annuler</button>
+                <button [disabled]="isSendingUserInfo" class="p-2" type="button" (click)="updateAdmin()" style="background-color: var(--info);border:none;border-radius: 5px; color: white;">Confirmer</button>
+            </div>
+            <div *ngIf="isSendingUserInfo" class="loader-wrap text-center">
+                <span class="loader"></span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--   
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ajoutContext" tabindex="-1">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" id="closeModal"
+                    type="button"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <h6 class="modal-title">Importez un nouveau PDF</h6>
+                </div>
+                <div class="input-section mb-3">
+                    <div class="input-container">
+                        <input #fpsFileUploader (change)="onChange($event)" accept=".pdf" class="form-control"
+                            type="file" id="fpsFileUploader">
+                    </div>
+                </div>
+                <div class="btns-section">
+                    <div class="btns-wrap">
+                        <button (click)="addContext()" [ngStyle]="isSendingFile ? {'display': 'none' }:{'display': 'unset' }"
+                            class="btn btn-success float-end">Soumettre</button>
+                    </div>
+                    <div class="loader-wrap text-center">
+                        <span *ngIf="isSendingFile" class="loader"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ -->

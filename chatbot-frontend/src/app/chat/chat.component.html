@@ -1,0 +1,75 @@
+<div class="h-100 w-100 d-flex" style="padding-top: 10vh;background-color: rgb(16, 16, 16);">
+    <div class="h-100" style="width:280px;border-right:1px solid gray;" >
+        <div class="w-100 h-100 p-2 d-flex flex-column">
+            <span class="p-2 mb-4 pointer" style="background-color: #9b4dca;border-radius: 7px;color:white;" (click)="initChat()">Commencer une nouvelle discussion</span>
+            <span style="color:white">Historiques</span>
+            <div class="w-100 h-75" style="overflow-y: auto;overflow-x: hidden;">
+                <ng-container  *ngFor="let discussion of discussions" style="overflow-y: auto;overflow-x: hidden;">
+                    <div class="w-100 p-2 mt-3 pointer" [ngClass]="discussionId==discussion.id?'history-element-selected' :'history-element' " (click)="getQAsByDiscussionId(discussion)">
+                        <span>Discussion le {{discussion.dateCreation| date}}</span>
+                    </div>
+                </ng-container>
+            </div>
+
+        </div>
+    </div>
+    <ng-container *ngIf="chatView">
+    <div class="h-75  w-100 d-flex flex-column justify-content-end align-items-center" style = "margin: auto;">
+        <div class="h-100 w-75 d-flex flex-column justify-content-start" style="overflow-y:auto ;overflow-x: hidden;">
+            <ng-container *ngFor="let message of messages">
+    
+                <!-- <ng-container *ngIf="message.author === 'bot'">
+                    <div class="w-50 p-2" style="white-space: pre-line;background-color: rgb(66, 66, 66);border-radius: 6px;font-size: 1.2rem;color:white" >
+                        {{ message.content }}
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="message.author==='user'">
+                    <div class=" w-50 p-2" style="white-space: pre-line;background-color: #2c2c2d;border-radius: 6px;font-size: 1.2rem;color:white" >
+                    {{ message.content }} 
+                    </div>
+                </ng-container> -->
+                <div class="w-75 d-flex flex-column" style="color: white;"  >
+                    <div class="w-100 d-flex justify-content-start m-2"  *ngIf="message.author === 'user'">
+                        <span class="w-75 p-2" style="white-space: pre-line;background-color: rgb(66, 66, 66);border-radius: 6px;font-size: 1.2rem;"  [innerText]=" message.content"></span>
+                    </div>
+                    <div class="w-100 d-flex justify-content-end  m-2" *ngIf="message.author==='bot'">
+                        <span class="w-75 p-2" style="white-space: pre-line;background-color: #2c2c2d;border-radius: 6px;font-size: 1.2rem;" [innerText]=" message.content.replace('/(?:\r\n|\r|\n)/g', '\\n')"></span>
+                    </div>
+                </div>
+        </ng-container>
+        </div>
+
+            
+            <div style="height: 50px;" class="w-100 d-flex m-5 justify-content-center">
+                <input class="w-50" [(ngModel)]="value" (keyup.enter)="sendMessage()" type="text" placeholder="Question?" style="border-radius: 10px;border: 1px solid rgb(0, 0, 0);">
+                <button class="p-2 pe-2 ps-2"  (click)="sendMessage()" style="border: none; border-radius: 10px; background-color:rgb(0, 0, 0) ;position: relative;left:-15px;color: white;">
+                Envoyer 
+                </button>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!chatView">
+        <div  class="w-100 h-100 pb-5 d-flex flex-column justify-content-start align-items-center">
+            <div class="w-75 mb-5 d-flex justify-content-between">
+                <span style="color:#a7a3a3;font-style: italic;"> Discussion crée le {{selectedDiscssion.dateCreation|date}}</span>
+                <button class="p-2 pt-1 pb-1" style="border:1px solid red;background-color: transparent;color: red; border-radius: 5px;" (click)="deleteDiscussion(discussionId)">Supprimer</button>
+            </div>
+            <div class="w-100 h-100 d-flex flex-column justify-content-start align-items-center" style = "overflow-y:auto ;overflow-x: hidden; margin: auto; ">
+                <ng-container *ngFor="let qa of QAs">
+                    <div class="w-75" style="color: white;">
+                        <div class="w-100 d-flex justify-content-start m-2">
+                            <span class="w-75 p-2" style="white-space: pre-line;background-color: #9b4dca;border-radius: 6px;font-size: 1.2rem;"  [innerText]="qa.question"></span>
+                        </div>
+                        <div class="w-100 d-flex justify-content-end  m-2">
+                            <span class="w-75 p-2" style="white-space: pre-line;background-color: rgb(62, 62, 88);border-radius: 6px;font-size: 1.2rem;" [innerText]="qa.answer"></span>
+                        </div>
+                    </div>
+                </ng-container> 
+            </div>
+        </div>
+
+    </ng-container>
+</div>
+<div class="p-2 pointer" style="position: fixed;background-color: #9b4dca; border-radius: 5px;right:3%;bottom: 8%;" *ngIf="!chatView" (click)="returnToChat()">
+    <span style="color: white;font-weight: 800;">Back to chat</span>
+</div>

@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+  agent-pgv:
+    build: 
+      context: ./agent_pgv
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - chatbot-network
+  
+  pg-admin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@email.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_LISTEN_PORT=5050
+    ports:
+      - "5050:5050"
+    networks:
+      - chatbot-network
+
+  pgvector:
+    image: ankane/pgvector
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - datapgvector2:/var/lib/postgresql/data
+    networks:
+      - chatbot-network
+
+  chatbot-backend:
+    build: 
+      context: ./chatbot-backend
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    volumes:
+      - data:/data
+    depends_on:
+      - pgvector
+    networks:
+      - chatbot-network
+
+  chatbot-frontend:
+    build: 
+      context: ./chatbot-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    networks:
+      - chatbot-network
+      
+networks:
+  chatbot-network:
+    driver: bridge
+
+volumes:
+  data:
+  datapgvector2:

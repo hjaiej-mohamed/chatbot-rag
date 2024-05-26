@@ -1,0 +1,97 @@
+.message {
+  border-radius: 50px;
+  margin: 0 15px 20px;
+  padding: 10px 20px;
+  position: relative;
+  font-size: 20px;
+}
+.message.to {
+  background-color: var(--primary);
+  color: #fff;
+  margin-left: 100px;
+  text-align: right;
+}
+.message.from {
+  background-color: var(--info);
+  color: white;
+  margin-right: 100px;
+}
+.message.to + .message.to,
+.message.from + .message.from {
+  margin-top: -10px;
+}
+
+[nz-input]{
+  margin-bottom: 20px;
+    background-color: var(--dark);
+    color: white;
+    padding: 10px;
+    border-radius: 5px ;
+    border:none
+}
+[nz-button]{
+  background-color: var(--dark);
+  color: white;
+  /* padding: 10px; */
+  border: none;
+  border-radius: 5px;
+  height: 60%;
+  left:-10px
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-text-fill-color: white !important;;
+    -webkit-background-clip: text;
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-background-color: transparent !important;
+    -webkit-font-size:small !important
+}
+input{
+  border: 2px solid transparent !important;
+  padding: 10px;
+  background-color: rgb(0, 0, 0) !important;
+  color: white;
+}
+input:focus{
+  outline: none !important;
+  border: 2px solid transparent !important;
+  color: white;
+}
+.history-element{
+  height:55px;
+  overflow:hidden;
+  color:#656565;
+  background-color:#2b2b2b;
+  border-radius:3px; 
+}
+.history-element:hover{
+  color:#c4c3c3;
+}
+.history-element-selected{
+  height:55px;
+  overflow:hidden;
+  color:#fff;
+  background-color:#424242;
+  border-radius:3px; 
+}
+/* Customizes the whole scrollbar */
+::-webkit-scrollbar {
+  width: 5px; /* Width of the scrollbar */
+}
+
+/* Customizes the track of the scrollbar */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color of the track */
+}
+
+/* Customizes the thumb of the scrollbar */
+::-webkit-scrollbar-thumb {
+  background: rgb(48, 48, 48); /* Color of the thumb */
+}
+
+/* Changes the thumb color on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker color on hover */
+}

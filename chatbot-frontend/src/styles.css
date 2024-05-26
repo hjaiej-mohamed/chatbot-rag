@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+
+:root {
+    --primary: #d8655a;
+    --secondary: #f5b47f;
+    --warn: #f2d98d;
+    --info: #55738d;
+    --dark: #263e58;
+    --success: #00b998;
+    --danger: #d51a30;
+    --warning: #ff9500;
+  }
+
+  body{
+    background-color: #ededed;
+  }
+  .pointer{
+    cursor: pointer;
+  }
